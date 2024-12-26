@@ -59,7 +59,7 @@ const getUrlAnalytics = async (alias) => {
     const deviceType = getAnalyticsByField(url.clickData, "device");
     const locationAnalytics = getGeolocationAnalytics(url.clickData);
 
-    return { totalClicks, uniqueClicks, clicksByDate, osType, deviceType };
+    return { totalClicks, uniqueClicks, clicksByDate, osType, deviceType, locationAnalytics };
 };
 
 

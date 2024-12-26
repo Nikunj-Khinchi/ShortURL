@@ -1,0 +1,185 @@
+body {
+    background-color: #f2f4f8;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+.box {
+    padding: 30px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.box h3 {
+    font-weight: 500;
+    color: #3b3f42;
+}
+
+.profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ccc;
+}
+
+.btn-custom {
+    border: 2px solid #357ae8;
+    background-color: #fff;
+    border-radius: 2rem;
+    color: #357ae8;
+    padding: 6px 12px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+    background-color: #357ae8;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.btn-primary {
+    background-color: #357ae8;
+    border-color: #357ae8;
+    padding: 12px 24px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.heading {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 36px;
+    font-weight: 500;
+    color: #357ae8;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #444;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.table {
+    border-radius: 8px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table thead {
+    background-color: #357ae8;
+    color: white;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f3f6;
+}
+
+.box-footer {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.box-footer p {
+    font-size: 14px;
+    color: #888;
+}
+
+.form-control:focus {
+    border-color: #357ae8;
+    box-shadow: 0 0 5px rgba(53, 122, 232, 0.5);
+}
+
+.developer-info {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.developer-info a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.developer-info a:hover {
+    text-decoration: underline;
+}
+
+.error-message {
+    color: red;
+    font-weight: normal;
+    margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        margin-top: 30px;
+    }
+
+    .box {
+        padding: 20px;
+    }
+
+    .heading {
+        font-size: 28px;
+    }
+
+    .profile-pic {
+        width: 60px;
+        height: 60px;
+    }
+
+    .btn-custom, .btn-primary {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+
+    .developer-info {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        margin-top: 20px;
+    }
+
+    .box {
+        padding: 10px;
+    }
+
+    .heading {
+        font-size: 24px;
+    }
+
+    .profile-pic {
+        width: 50px;
+        height: 50px;
+    }
+
+    .btn-custom, .btn-primary {
+        font-size: 12px;
+        padding: 8px 16px;
+    }
+
+    .developer-info {
+        font-size: 10px;
+    }
+}

@@ -11,193 +11,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f2f4f8;
-            font-family: 'Poppins', sans-serif;
-            color: #333;
-        }
-
-        .container {
-            margin-top: 50px;
-        }
-
-        .box {
-            padding: 30px;
-            background: #fff;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .box h3 {
-            font-weight: 500;
-            color: #3b3f42;
-        }
-
-        .profile-pic {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #ccc;
-        }
-
-        .btn-custom {
-            border: 2px solid #357ae8;
-            background-color: #fff;
-            border-radius: 2rem;
-            color: #357ae8;
-            padding: 6px 12px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-custom:hover {
-            background-color: #357ae8;
-            color: #fff;
-            transform: translateY(-2px);
-        }
-
-        .btn-primary {
-            background-color: #357ae8;
-            border-color: #357ae8;
-            padding: 12px 24px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-            transform: translateY(-2px);
-        }
-
-        .heading {
-            text-align: center;
-            margin-bottom: 40px;
-            font-size: 36px;
-            font-weight: 500;
-            color: #357ae8;
-        }
-
-        .form-label {
-            font-weight: 500;
-            color: #444;
-        }
-
-        .table th, .table td {
-            vertical-align: middle;
-        }
-
-        .table {
-            border-radius: 8px;
-            overflow: hidden;
-            border: none;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .table thead {
-            background-color: #357ae8;
-            color: white;
-        }
-
-        .table tbody tr:hover {
-            background-color: #f1f3f6;
-        }
-
-        .box-footer {
-            text-align: center;
-            margin-top: 30px;
-        }
-
-        .box-footer p {
-            font-size: 14px;
-            color: #888;
-        }
-
-        .form-control:focus {
-            border-color: #357ae8;
-            box-shadow: 0 0 5px rgba(53, 122, 232, 0.5);
-        }
-
-        .developer-info {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 14px;
-            color: #6c757d;
-        }
-
-        .developer-info a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .developer-info a:hover {
-            text-decoration: underline;
-        }
-
-        .error-message {
-            color: red;
-            font-weight: normal;
-            margin-top: 10px;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                margin-top: 30px;
-            }
-
-            .box {
-                padding: 20px;
-            }
-
-            .heading {
-                font-size: 28px;
-            }
-
-            .profile-pic {
-                width: 60px;
-                height: 60px;
-            }
-
-            .btn-custom, .btn-primary {
-                font-size: 14px;
-                padding: 10px 20px;
-            }
-
-            .developer-info {
-                font-size: 12px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .container {
-                margin-top: 20px;
-            }
-
-            .box {
-                padding: 10px;
-            }
-
-            .heading {
-                font-size: 24px;
-            }
-
-            .profile-pic {
-                width: 50px;
-                height: 50px;
-            }
-
-            .btn-custom, .btn-primary {
-                font-size: 12px;
-                padding: 8px 16px;
-            }
-
-            .developer-info {
-                font-size: 10px;
-            }
-        }
-    </style>
+    <link href="/css/styles.css" rel="stylesheet">
 </head>
 
 <body>
@@ -251,7 +65,7 @@
                     <!-- Short URL Response -->
                     <div id="shortUrlResult" class="mt-4" style="display: none;">
                         <h4>Short URL Created Successfully</h4>
-                        <a id="shortUrlLink" href="#" target="_blank" class="text-primary fw-bold"></a>
+                        <a id="shortUrlLink" href="#" target="_blank" class="text-primary"></a>
                         <p id="createdAt" class="text-muted"></p>
                     </div>
                 </div>
@@ -294,151 +108,21 @@
     </div>
 
     <script>
-        // Firebase configuration dynamically injected by the server
-        const firebaseConfig = {
+         // Firebase configuration dynamically injected by the server
+        window.firebaseConfig = {
             apiKey: "<%= apiKey %>",
             authDomain: "<%= authDomain %>",
             projectId: "<%= projectId %>",
             storageBucket: "<%= storageBucket %>",
             messagingSenderId: "<%= messagingSenderId %>",
-            appId: "<%= appId %>",
+            appId: "<%= appId %>"
         };
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-
-        document.addEventListener("DOMContentLoaded", async () => {
-            const idToken = localStorage.getItem("idToken");
-            if (idToken) {
-                await loadAnalytics(idToken);
-            }
-
-            firebase.auth().onAuthStateChanged((user) => {
-                if (user) {
-                    document.getElementById("userName").innerText = `Name: ${user.displayName}`;
-                    document.getElementById("userEmail").innerText = `Email: ${user.email}`;
-                    document.getElementById("userPicture").src = user.photoURL;
-
-                    document.getElementById("authSection").style.display = "none";
-                    document.getElementById("userInfo").style.display = "block";
-                }
-            });
-        });
-
-        document.getElementById("googleSignIn").addEventListener("click", async () => {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            try {
-                const result = await auth.signInWithPopup(provider);
-                const idToken = await result.user.getIdToken();
-                localStorage.setItem("idToken", idToken);
-                await loadAnalytics(idToken);
-            } catch (error) {
-                console.error("Google Sign-In failed:", error);
-                document.getElementById("authError").innerText = `Google Sign-In failed: ${error.message}`;
-                document.getElementById("authError").style.display = "block";
-            }
-        });
-
-        document.getElementById("logout").addEventListener("click", () => {
-            auth.signOut().then(() => {
-                localStorage.removeItem("idToken");
-                document.getElementById("authSection").style.display = "block";
-                document.getElementById("userInfo").style.display = "none";
-                document.getElementById("analyticsSection").style.display = "none";
-                alert("Logged out successfully!");
-            }).catch((error) => {
-                console.error("Logout failed:", error);
-                document.getElementById("authError").innerText = `Logout failed: ${error.message}`;
-                document.getElementById("authError").style.display = "block";
-            });
-        });
-
-        document.getElementById("shortUrlForm").addEventListener("submit", async (event) => {
-            event.preventDefault();
-
-            const idToken = localStorage.getItem("idToken");
-            if (!idToken) {
-                alert("You need to sign in first.");
-                return;
-            }
-
-            const longUrl = document.getElementById("longUrl").value;
-            const topic = document.getElementById("topic").value;
-            const customAlias = document.getElementById("customAlias").value;
-
-            const payload = { longUrl, topic, customAlias: customAlias || null };
-
-            try {
-                const response = await fetch(`<%- baseUrl %>/api/shorten/`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": idToken,
-                    },
-                    body: JSON.stringify(payload),
-                });
-
-                const data = await response.json();
-                if (response.ok) {
-                    document.getElementById("shortUrlLink").href = data.data.shortUrl;
-                    document.getElementById("shortUrlLink").innerText = data.data.shortUrl;
-                    document.getElementById("createdAt").innerText = `Created At: ${new Date(data.data.createdAt).toLocaleString()}`;
-                    document.getElementById("shortUrlResult").style.display = "block";
-                    document.getElementById("shortUrlError").style.display = "none";
-                    await loadAnalytics(idToken);
-                } else {
-                    document.getElementById("shortUrlError").innerText = `Failed to create Short URL: ${data.message}`;
-                    document.getElementById("shortUrlError").style.display = "block";
-                }
-            } catch (error) {
-                console.error("Error creating Short URL:", error);
-                document.getElementById("shortUrlError").innerText = `Error creating Short URL: ${error.message}`;
-                document.getElementById("shortUrlError").style.display = "block";
-            }
-        });
-
-        async function loadAnalytics(idToken) {
-            try {
-                const response = await fetch("<%- baseUrl %>/api/analytics/overall", {
-                    headers: {
-                        "Authorization": idToken,
-                    },
-                });
-                const data = await response.json();
-                if (response.ok) {
-                    document.getElementById("totalUrls").innerText = data.totalUrls;
-                    document.getElementById("totalClicks").innerText = data.totalClicks;
-                    document.getElementById("uniqueClicks").innerText = data.uniqueClicks;
-
-                    const urlsTableBody = document.getElementById("urlsTableBody");
-                    urlsTableBody.innerHTML = data.urls.map(url => `
-                        <tr>
-                            <td><a href="<%= baseUrl %>/api/shorten/${url.shortUrl}" target="_blank" >${url.shortUrl}</a></td>
-                            <td>${url.longUrl}</td>
-                            <td>${url.totalClicks}</td>
-                            <td>${url.uniqueClicks}</td>
-                        </tr>
-                    `).join("");
-
-                    document.getElementById("analyticsSection").style.display = "block";
-                    document.getElementById("analyticsError").style.display = "none";
-                } else {
-                    console.error("Failed to load analytics:", data.message);
-                    if(data.message === "No URLs found for the specified user"){
-                    document.getElementById("analyticsError").innerText = `${data.message}`;      
-                    }else{
-                    document.getElementById("analyticsError").innerText = `Failed to load analytics: ${data.message}`;
-                    }
-                    document.getElementById("analyticsError").style.display = "block";
-                }
-            } catch (error) {
-                console.error("Error fetching analytics:", error);
-                document.getElementById("analyticsError").innerText = `Error fetching analytics: ${error.message}`;
-                document.getElementById("analyticsError").style.display = "block";
-            }
-        }
+        // Base URL dynamically injected by the server
+        window.baseUrl = "<%- baseUrl %>";
     </script>
+    <script src="/js/clientHandler.js"></script>
+
 </body>
 
 </html>

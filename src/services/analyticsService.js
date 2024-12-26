@@ -28,22 +28,22 @@ const getAnalyticsByField = (clickData, field) => {
     }));
 };
 
-// const getGeolocationAnalytics = (clickData) => {
-//     const locationAnalytics = {};
-//     clickData.forEach((click) => {
-//         const geo = geoip.lookup(click.ip);
-//         const location = geo ? `${geo.city}, ${geo.country}` : "Unknown";
-//         locationAnalytics[location] = locationAnalytics[location] || { uniqueClicks: 0, uniqueUsers: new Set() };
-//         locationAnalytics[location].uniqueClicks += 1;
-//         locationAnalytics[location].uniqueUsers.add(click.ip);
-//     });
+const getGeolocationAnalytics = (clickData) => {
+    const locationAnalytics = {};
+    clickData.forEach((click) => {
+        const geo = geoip.lookup(click.ip);
+        const location = geo ? `${geo.city}, ${geo.country}` : "Unknown";
+        locationAnalytics[location] = locationAnalytics[location] || { uniqueClicks: 0, uniqueUsers: new Set() };
+        locationAnalytics[location].uniqueClicks += 1;
+        locationAnalytics[location].uniqueUsers.add(click.ip);
+    });
 
-//     return Object.entries(locationAnalytics).map(([location, data]) => ({
-//         location,
-//         uniqueClicks: data.uniqueClicks,
-//         uniqueUsers: data.uniqueUsers.size,
-//     }));
-// };
+    return Object.entries(locationAnalytics).map(([location, data]) => ({
+        location,
+        uniqueClicks: data.uniqueClicks,
+        uniqueUsers: data.uniqueUsers.size,
+    }));
+};
 
 
 const getUrlAnalytics = async (alias) => {
@@ -57,7 +57,7 @@ const getUrlAnalytics = async (alias) => {
     // Generate analytics for OS and Device
     const osType = getAnalyticsByField(url.clickData, "os");
     const deviceType = getAnalyticsByField(url.clickData, "device");
-    // const locationAnalytics = getGeolocationAnalytics(url.clickData);
+    const locationAnalytics = getGeolocationAnalytics(url.clickData);
 
     return { totalClicks, uniqueClicks, clicksByDate, osType, deviceType };
 };
@@ -80,6 +80,7 @@ const getTopicAnalytics = async (topic) => {
             const urlTotalClicks = url.clickData.length;
             const urlUniqueClicks = new Set(url.clickData.map((click) => click.ip)).size;
             const urlClicksByDate = getClicksByDate(url.clickData);
+            const geoLocationAnalytics = getGeolocationAnalytics(url.clickData);
 
             totalClicks += urlTotalClicks;
             url.clickData.forEach((click) => uniqueClicksSet.add(click.ip));
@@ -93,6 +94,7 @@ const getTopicAnalytics = async (topic) => {
                 shortUrl: url.shortUrl,
                 totalClicks: urlTotalClicks,
                 uniqueClicks: urlUniqueClicks,
+                geoLocationAnalytics,
             };
         });
 

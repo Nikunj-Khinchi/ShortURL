@@ -35,7 +35,10 @@ const getOverallAnalyticsController = async (req, res) => {
         const analytics = await getOverallAnalytics(userId);
         res.json(analytics);
     } catch (error) {
-        console.error("Error retrieving overall analytics:", error);
+        if (error.message === "No URLs found for the specified user") {
+            return res.status(404).json({ message: "No URLs found for the specified user" });
+        }
+        logger.error("Error retrieving overall analytics:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 };

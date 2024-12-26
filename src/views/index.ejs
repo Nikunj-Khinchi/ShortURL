@@ -370,7 +370,7 @@
             const payload = { longUrl, topic, customAlias: customAlias || null };
 
             try {
-                const response = await fetch("http://localhost:3000/api/shorten/", {
+                const response = await fetch(`<%- baseUrl %>/api/shorten/`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -400,7 +400,7 @@
 
         async function loadAnalytics(idToken) {
             try {
-                const response = await fetch("http://localhost:3000/api/analytics/overall", {
+                const response = await fetch("<%- baseUrl %>/api/analytics/overall", {
                     headers: {
                         "Authorization": idToken,
                     },
@@ -425,7 +425,11 @@
                     document.getElementById("analyticsError").style.display = "none";
                 } else {
                     console.error("Failed to load analytics:", data.message);
+                    if(data.message === "No URLs found for the specified user"){
+                    document.getElementById("analyticsError").innerText = `${data.message}`;      
+                    }else{
                     document.getElementById("analyticsError").innerText = `Failed to load analytics: ${data.message}`;
+                    }
                     document.getElementById("analyticsError").style.display = "block";
                 }
             } catch (error) {

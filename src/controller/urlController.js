@@ -11,7 +11,7 @@ const createShortUrlHandler = async (req, res) => {
     try {
         const newUrl = await createShortUrl({ longUrl, customAlias, topic, userId });
 
-        const reponse = {
+        const response = {
             shortUrl: `${process.env.BASE_URL}/api/shorten/${newUrl.shortUrl}`,
             createdAt: newUrl.createdAt
         }
@@ -26,8 +26,7 @@ const createShortUrlHandler = async (req, res) => {
         const cacheKey = `shortUrl:${newUrl.shortUrl}`;
         await redisClient.set(cacheKey, JSON.stringify(cacheObject), "EX", 60 * 60 * 24); // Cache for 24 hours
 
-
-        return WriteResponse(res, 201, "Short URL created successfully", reponse);
+        return WriteResponse(res, 201, "Short URL created successfully", response);
     } catch (error) {
         if (error.message.includes("Custom alias already in use")) {
             return WriteResponse(res, 409, error.message); // Conflict error
@@ -52,7 +51,6 @@ const redirectShortUrlHandler = async (req, res) => {
             const parsedData = JSON.parse(cachedData);
             longUrl = parsedData.longUrl;
             urlId = parsedData.urlId;
-
         } else {
             // Cache miss: Query the database
             const url = await findUrlByAlias(alias);
@@ -75,10 +73,13 @@ const redirectShortUrlHandler = async (req, res) => {
         const os = parser.getOS().name || "Unknown"; // OS name
         const device = parser.getDevice().type || "desktop"; // Device type ('mobile', 'tablet', 'desktop', etc.)
 
+        // Extract the client's IP address
+        const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+
         // Prepare click data
         const clickData = {
             userAgent: req.headers["user-agent"],
-            ip: req.ip,
+            ip,
             os,
             device,
         };

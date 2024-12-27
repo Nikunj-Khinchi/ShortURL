@@ -46,7 +46,7 @@ router.post("/google-auth", googleAuth);
  *       201:
  *         description: Short URL created successfully
  */
-router.post("/shorten", createUrlLimiter, authentication, createShortUrlHandler);
+router.post("/shorten", authentication,createUrlLimiter, createShortUrlHandler);
 
 /**
  * @swagger
@@ -76,7 +76,7 @@ router.get("/shorten/:alias", redirectShortUrlHandler);
  *       200:
  *         description: Overall analytics retrieved successfully
  */
-router.get("/analytics/overall", analyticsLimiter, authentication, getOverallAnalyticsController);
+router.get("/analytics/overall", authentication,analyticsLimiter, getOverallAnalyticsController);
 
 /**
  * @swagger
@@ -94,7 +94,7 @@ router.get("/analytics/overall", analyticsLimiter, authentication, getOverallAna
  *       200:
  *         description: URL analytics retrieved successfully
  */
-router.get("/analytics/:alias", analyticsLimiter, authentication, getUrlAnalyticsHandler);
+router.get("/analytics/:alias",  authentication, analyticsLimiter, getUrlAnalyticsHandler);
 
 /**
  * @swagger
@@ -112,6 +112,6 @@ router.get("/analytics/:alias", analyticsLimiter, authentication, getUrlAnalytic
  *       200:
  *         description: Topic analytics retrieved successfully
  */
-router.get("/analytics/topic/:topic", analyticsLimiter, authentication, getTopicAnalyticsHandler);
+router.get("/analytics/topic/:topic", authentication,analyticsLimiter, getTopicAnalyticsHandler);
 
 module.exports = router;

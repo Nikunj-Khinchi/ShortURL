@@ -95,6 +95,8 @@ document.getElementById("shortUrlForm").addEventListener("submit", async (event)
 });
 
 async function loadAnalytics(idToken) {
+
+    idToken = idToken || localStorage.getItem("idToken");
     try {
         const response = await fetch(`${window.baseUrl}/api/analytics/overall`, {
             headers: {
